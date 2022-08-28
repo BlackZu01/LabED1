@@ -12,13 +12,13 @@ public class App {
         Scanner read = new Scanner(System.in);
 
         // FillClient(read, "Clientes");
-        //OrderClients(read, "ClientesTemp");
-        //FillBill(read, "FacturaTemp");
+        // OrderClients(read, "ClientesTemp");
+        // FillBill(read, "FacturaTemp");
         OrderBills(read, "FacturaTemp");
         read.close();
     }
 
-    public static void FillClient (Scanner read, String fileName) {
+    public static void FillClient(Scanner read, String fileName) {
         String cedula, nombre, dir, celular, email;
 
         try {
@@ -55,9 +55,8 @@ public class App {
         }
     }
 
-    public static void FillBill (Scanner read, String fileName) {
+    public static void FillBill(Scanner read, String fileName) {
         String cedula, numFactura, codProductor, cantidad;
-        
 
         try {
             FileWriter outFile = new FileWriter(fileName + ".txt", false);
@@ -68,10 +67,13 @@ public class App {
             hayFactura = read.nextLine();
 
             while (hayFactura.equalsIgnoreCase("si")) {
-                String datos [] = new String[100];
+                String datos[] = new String[100];
                 System.out.println(" ");
                 BillMenu(read, datos);
-                cedula = datos[0]; numFactura = datos[1]; codProductor = datos[2]; cantidad = datos[3];
+                cedula = datos[0];
+                numFactura = datos[1];
+                codProductor = datos[2];
+                cantidad = datos[3];
 
                 if (!cedula.isEmpty() && !numFactura.isEmpty()
                         && !codProductor.isEmpty() && !cantidad.isEmpty()) {
@@ -88,26 +90,25 @@ public class App {
         }
     }
 
-    public static void OrderBills (Scanner read, String fileName) {
+    public static void OrderBills(Scanner read, String fileName) {
         boolean hayFacturas = false;
         String W[][] = new String[100][100];
         String W_order[][] = new String[100][100];
-        int t= 0, x=0;
+        int t = 0, x = 0;
 
-
-        while(hayFacturas == false){
+        while (hayFacturas == false) {
             try {
                 File Facturas = new File("Facturas.txt");
-                PrintWriter register_temp = new PrintWriter(new FileWriter(Facturas));
+                PrintWriter register_bill = new PrintWriter(new FileWriter(Facturas));
 
-                BufferedReader br = new BufferedReader(new FileReader(fileName+".txt"));
+                BufferedReader br = new BufferedReader(new FileReader(fileName + ".txt"));
                 String line = null;
-                String orderVec [] = new String[100];
+                String orderVec[] = new String[100];
 
-                while((line = br.readLine()) != null){
-                    String VecTemp [] = line.split("\t");
-                    
-                    for (int k=0 ; k < VecTemp.length ; k++) {
+                while ((line = br.readLine()) != null) {
+                    String VecTemp[] = line.split("\t");
+
+                    for (int k = 0; k < VecTemp.length; k++) {
                         W[t][k] = VecTemp[k];
                     }
 
@@ -117,24 +118,28 @@ public class App {
 
                 OrdenarVector(orderVec, t);
                 while (x < t) {
-                    for (int k=0 ; k < t ; k++) {
+                    for (int k = 0; k < t; k++) {
+                        if (orderVec[x] == null) {
+                            break;
+                        }
                         if (Integer.parseInt(orderVec[x]) == Integer.parseInt(W[k][0])) {
-                            for (int y=0 ; y < t ; y++) {
+                            for (int y = 0; y < t; y++) {
                                 W_order[x][y] = W[k][y];
                             }
+                            x++;
                         }
                     }
-                    x++;
                 }
-                
-                for (int k=0 ; k < t ; k++) {
-                    for (int j=0 ; j<4 ; j++) {
-                        System.out.print(W_order[k][j]+ " ");
+
+                for (int k = 0; k < t; k++) {
+                    if (!W_order[k][0].isEmpty() && !W_order[k][1].isEmpty()
+                            && !W_order[k][2].isEmpty() && !W_order[k][3].isEmpty()) {
+                        register_bill.println(
+                                W_order[k][0] + "\t" + W_order[k][1] + "\t" + W_order[k][2] + "\t" + W_order[k][3]);
                     }
-                    System.out.println(" ");
                 }
-                
-                register_temp.close();
+
+                register_bill.close();
                 br.close();
                 hayFacturas = true;
 
@@ -146,7 +151,7 @@ public class App {
         }
     }
 
-    public static void OrderClients (Scanner read, String fileName) {
+    public static void OrderClients(Scanner read, String fileName) {
         boolean hayClientes = false;
         String V[][] = new String[100][100];
         String Temp[][] = new String[100][100];
@@ -163,7 +168,7 @@ public class App {
                 while ((line = br.readLine()) != null) {
                     String temp[] = line.split("\t");
 
-                    for (int k=0 ; k < temp.length ; k++) {
+                    for (int k = 0; k < temp.length; k++) {
                         V[t][k] = temp[k];
                     }
 
@@ -175,9 +180,9 @@ public class App {
                 OrdenarVector(vec, t);
                 // Buscar en la matriz el primer elemento del vector ordenado
                 while (x < t) {
-                    for (int k=0 ; k < t ; k++) {
+                    for (int k = 0; k < t; k++) {
                         if (Integer.parseInt(vec[x]) == Integer.parseInt(V[k][0])) {
-                            for (int y=0 ; y < t ; y++) {
+                            for (int y = 0; y < t; y++) {
                                 Temp[x][y] = V[k][y];
                             }
                         }
@@ -185,11 +190,12 @@ public class App {
                     x++;
                 }
                 // Creamos el archivo Clientes.txt ya ordenado
-                for (int k=0 ; k < x ; k++) {
+                for (int k = 0; k < x; k++) {
                     if (!Temp[k][0].isEmpty() && !Temp[k][1].isEmpty()
                             && !Temp[k][2].isEmpty() && !Temp[k][3].isEmpty()
                             && !Temp[k][4].isEmpty()) {
-                        register_temp.println(Temp[k][0] + "\t" + Temp[k][1] + "\t" + Temp[k][2] + "\t" + Temp[k][3]+ "\t" + Temp[k][4]);
+                        register_temp.println(Temp[k][0] + "\t" + Temp[k][1] + "\t" + Temp[k][2] + "\t" + Temp[k][3]
+                                + "\t" + Temp[k][4]);
                     }
                 }
 
@@ -205,32 +211,34 @@ public class App {
         }
     }
 
-    public static void OrdenarVector (String V[], int t) {
-        for (int k=0 ; k < t ; k++) {
-            for (int j=0 ; j < (t - k - 1) ; j++) {
-                if (Integer.parseInt(V[j+1]) < Integer.parseInt(V[j])) {
+    public static void OrdenarVector(String V[], int t) {
+        for (int k = 0; k < t; k++) {
+            for (int j = 0; j < (t - k - 1); j++) {
+                if (Integer.parseInt(V[j + 1]) < Integer.parseInt(V[j])) {
                     String temp = V[j];
                     V[j] = V[j + 1];
-                    V[j+1] = temp;
+                    V[j + 1] = temp;
                 }
             }
         }
     }
 
-    public static void BillMenu (Scanner read, String datos[]) {
-        String titles[] = {"número de identificación", "número de factura", "código de productor", "cantidad de ventas"};
+    public static void BillMenu(Scanner read, String datos[]) {
+        String titles[] = { "número de identificación", "número de factura", "código de productor",
+                "cantidad de ventas" };
 
-        for (int k=0 ; k < titles.length ; k++) {
-            System.out.print("Ingrese " +titles[k]+ ": ");
+        for (int k = 0; k < titles.length; k++) {
+            System.out.print("Ingrese " + titles[k] + ": ");
             datos[k] = read.nextLine();
         }
     }
 
-    public static void ClientMenu (Scanner read, String datos[]) {
-        String titles[] = {"número de identificación", "nombre", "dirección", "número de contacto (celular)", "correo electronico"};
+    public static void ClientMenu(Scanner read, String datos[]) {
+        String titles[] = { "número de identificación", "nombre", "dirección", "número de contacto (celular)",
+                "correo electronico" };
 
-        for (int k=0 ; k < titles.length ; k++) {
-            System.out.println("Ingrese " +titles[k]+ ": ");
+        for (int k = 0; k < titles.length; k++) {
+            System.out.println("Ingrese " + titles[k] + ": ");
             datos[k] = read.nextLine();
         }
     }
