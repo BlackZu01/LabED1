@@ -1,3 +1,3 @@
 # LabED1
 
-Solución al Laboratorio 2 de Estructura de Datos 1.
+Solución al Laboratorio 1 de Estructura de Datos I.
