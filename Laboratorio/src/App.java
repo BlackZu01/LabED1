@@ -12,11 +12,12 @@ public class App {
         Scanner read = new Scanner(System.in);
 
         // FillClient(read, "Clientes");
-        Ordenar(read, "ClientesTemp");
+        //Ordenar(read, "ClientesTemp");
+        FillBill(read, "FacturaTemp");
         read.close();
     }
 
-    public static void FillClient(Scanner read, String filename) {
+    public static void FillClient (Scanner read, String filename) {
         String cedula, nombre, dir, celular, email;
 
         try {
@@ -53,17 +54,40 @@ public class App {
         }
     }
 
-    public static void FillBill(Scanner read, String filename) {
+    public static void FillBill (Scanner read, String filename) {
+        String cedula, numFactura, codProductor, cantidad;
+        
+
         try {
             FileWriter outFile = new FileWriter(filename + ".txt", false);
-            PrintWriter register = new PrintWriter(outFile);
+            PrintWriter register_bill = new PrintWriter(outFile);
+
+            String hayFactura;
+            System.out.print("\n¿Desea ingresar una nueva factura? (sí - No)\n[+] ");
+            hayFactura = read.nextLine();
+
+            while (hayFactura.equalsIgnoreCase("si")) {
+                String datos [] = new String[100];
+                System.out.println(" ");
+                BillMenu(read, datos);
+                cedula = datos[0]; numFactura = datos[1]; codProductor = datos[2]; cantidad = datos[3];
+
+                if (!cedula.isEmpty() && !numFactura.isEmpty()
+                        && !codProductor.isEmpty() && !cantidad.isEmpty()) {
+                    register_bill.println(cedula + "\t" + numFactura + "\t" + codProductor + "\t" + cantidad);
+                }
+                System.out.print("\n¿Desea ingresar una nueva factura? (sí - No)\n[+] ");
+                hayFactura = read.nextLine();
+            }
+
+            register_bill.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void Ordenar(Scanner sc, String file_name) {
+    public static void Ordenar (Scanner sc, String file_name) {
         boolean hay = false;
         String V[][] = new String[100][100];
         String Temp[][] = new String[100][100];
@@ -80,7 +104,7 @@ public class App {
                 while ((line = br.readLine()) != null) {
                     String temp[] = line.split("\t");
 
-                    for (int k = 0; k < temp.length; k++) {
+                    for (int k=0 ; k < temp.length ; k++) {
                         V[t][k] = temp[k];
                     }
 
@@ -89,12 +113,12 @@ public class App {
                     t++;
                 }
 
-                Ordenar(vec, t);
+                OrdenarVector(vec, t);
                 // Buscar en la matriz el primer elemento del vector ordenado
                 while (x < t) {
-                    for (int k = 0; k < t; k++) {
+                    for (int k=0 ; k < t ; k++) {
                         if (Integer.parseInt(vec[x]) == Integer.parseInt(V[k][0])) {
-                            for (int y = 0; y < t; y++) {
+                            for (int y=0 ; y < t ; y++) {
                                 Temp[x][y] = V[k][y];
                             }
                         }
@@ -102,7 +126,7 @@ public class App {
                     x++;
                 }
                 // Creamos el archivo Clientes.txt ya ordenado
-                for (int k = 0; k < x; k++) {
+                for (int k=0 ; k < x ; k++) {
                     if (!Temp[k][0].isEmpty() && !Temp[k][1].isEmpty()
                             && !Temp[k][2].isEmpty() && !Temp[k][3].isEmpty()
                             && !Temp[k][4].isEmpty()) {
@@ -122,15 +146,28 @@ public class App {
         }
     }
 
-    public static void Ordenar(String V[], int t) {
-        for (int k = 0; k < t; k++) {
-            for (int j = 0; j < t - k - 1; j++) {
-                if (Integer.parseInt(V[j + 1]) < Integer.parseInt(V[j])) {
+    public static void OrdenarVector (String V[], int t) {
+        for (int k=0 ; k < t ; k++) {
+            for (int j=0 ; j < (t - k - 1) ; j++) {
+                if (Integer.parseInt(V[j+1]) < Integer.parseInt(V[j])) {
                     String temp = V[j];
                     V[j] = V[j + 1];
-                    V[j + 1] = temp;
+                    V[j+1] = temp;
                 }
             }
         }
+    }
+
+    public static void BillMenu (Scanner read, String datos[]) {
+        String titles[] = {"número de identificación", "número de factura", "código de productor", "cantidad de ventas"};
+
+        for (int k=0 ; k < titles.length ; k++) {
+            System.out.println("Ingrese " +titles[k]+ ": ");
+            datos[k] = read.nextLine();
+        }
+    }
+
+    public static void ClientMenu () {
+        String titles[] = {"número de identificación", "nombre", "dirección", "número de contacto (celular)", "correo electronico"};
     }
 }
