@@ -12,16 +12,17 @@ public class App {
         Scanner read = new Scanner(System.in);
 
         // FillClient(read, "Clientes");
-        //Ordenar(read, "ClientesTemp");
-        FillBill(read, "FacturaTemp");
+        //OrderClients(read, "ClientesTemp");
+        //FillBill(read, "FacturaTemp");
+        OrderBills(read, "FacturaTemp");
         read.close();
     }
 
-    public static void FillClient (Scanner read, String filename) {
+    public static void FillClient (Scanner read, String fileName) {
         String cedula, nombre, dir, celular, email;
 
         try {
-            FileWriter outFile = new FileWriter(filename + ".txt", false);
+            FileWriter outFile = new FileWriter(fileName + ".txt", false);
             PrintWriter register = new PrintWriter(outFile);
 
             String hayRegistro;
@@ -54,12 +55,12 @@ public class App {
         }
     }
 
-    public static void FillBill (Scanner read, String filename) {
+    public static void FillBill (Scanner read, String fileName) {
         String cedula, numFactura, codProductor, cantidad;
         
 
         try {
-            FileWriter outFile = new FileWriter(filename + ".txt", false);
+            FileWriter outFile = new FileWriter(fileName + ".txt", false);
             PrintWriter register_bill = new PrintWriter(outFile);
 
             String hayFactura;
@@ -87,17 +88,75 @@ public class App {
         }
     }
 
-    public static void Ordenar (Scanner sc, String file_name) {
-        boolean hay = false;
+    public static void OrderBills (Scanner read, String fileName) {
+        boolean hayFacturas = false;
+        String W[][] = new String[100][100];
+        String W_order[][] = new String[100][100];
+        int t= 0, x=0;
+
+
+        while(hayFacturas == false){
+            try {
+                File Facturas = new File("Facturas.txt");
+                PrintWriter register_temp = new PrintWriter(new FileWriter(Facturas));
+
+                BufferedReader br = new BufferedReader(new FileReader(fileName+".txt"));
+                String line = null;
+                String orderVec [] = new String[100];
+
+                while((line = br.readLine()) != null){
+                    String VecTemp [] = line.split("\t");
+                    
+                    for (int k=0 ; k < VecTemp.length ; k++) {
+                        W[t][k] = VecTemp[k];
+                    }
+
+                    orderVec[t] = W[t][0];
+                    t++;
+                }
+
+                OrdenarVector(orderVec, t);
+                while (x < t) {
+                    for (int k=0 ; k < t ; k++) {
+                        if (Integer.parseInt(orderVec[x]) == Integer.parseInt(W[k][0])) {
+                            for (int y=0 ; y < t ; y++) {
+                                W_order[x][y] = W[k][y];
+                            }
+                        }
+                    }
+                    x++;
+                }
+                
+                for (int k=0 ; k < t ; k++) {
+                    for (int j=0 ; j<4 ; j++) {
+                        System.out.print(W_order[k][j]+ " ");
+                    }
+                    System.out.println(" ");
+                }
+                
+                register_temp.close();
+                br.close();
+                hayFacturas = true;
+
+            } catch (IOException ex) {
+                System.out.println("No se encontro archivo");
+                hayFacturas = false;
+                fileName = read.nextLine(); // Archivo
+            }
+        }
+    }
+
+    public static void OrderClients (Scanner read, String fileName) {
+        boolean hayClientes = false;
         String V[][] = new String[100][100];
         String Temp[][] = new String[100][100];
         int t = 0, x = 0;
 
-        while (hay == false) {
+        while (hayClientes == false) {
             try {
                 File Clientes = new File("Clientes.txt");
                 PrintWriter register_temp = new PrintWriter(new FileWriter(Clientes));
-                BufferedReader br = new BufferedReader(new FileReader(file_name + ".txt"));
+                BufferedReader br = new BufferedReader(new FileReader(fileName + ".txt"));
                 String line = null;
                 String vec[] = new String[100];
 
@@ -136,12 +195,12 @@ public class App {
 
                 register_temp.close();
                 br.close();
-                hay = true;
+                hayClientes = true;
 
             } catch (IOException ex) {
                 System.out.println("No se encontro archivo");
-                hay = false;
-                file_name = sc.nextLine(); // Archivo
+                hayClientes = false;
+                fileName = read.nextLine(); // Archivo
             }
         }
     }
@@ -162,12 +221,17 @@ public class App {
         String titles[] = {"número de identificación", "número de factura", "código de productor", "cantidad de ventas"};
 
         for (int k=0 ; k < titles.length ; k++) {
-            System.out.println("Ingrese " +titles[k]+ ": ");
+            System.out.print("Ingrese " +titles[k]+ ": ");
             datos[k] = read.nextLine();
         }
     }
 
-    public static void ClientMenu () {
+    public static void ClientMenu (Scanner read, String datos[]) {
         String titles[] = {"número de identificación", "nombre", "dirección", "número de contacto (celular)", "correo electronico"};
+
+        for (int k=0 ; k < titles.length ; k++) {
+            System.out.println("Ingrese " +titles[k]+ ": ");
+            datos[k] = read.nextLine();
+        }
     }
 }
