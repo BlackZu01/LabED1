@@ -14,12 +14,14 @@ public class App {
         // FillClient(read, "Clientes");
         // OrderClients(read, "ClientesTemp");
         // FillBill(read, "FacturaTemp");
-        OrderBills(read, "FacturaTemp");
+        //OrderBills(read, "FacturaTemp");
+        FillProducts(read, "Productos");
         read.close();
     }
 
     public static void FillClient(Scanner read, String fileName) {
         String cedula, nombre, dir, celular, email;
+        String datos[] = new String[100];
 
         try {
             FileWriter outFile = new FileWriter(fileName + ".txt", false);
@@ -30,16 +32,8 @@ public class App {
             hayRegistro = read.nextLine();
 
             while (hayRegistro.equalsIgnoreCase("si")) {
-                System.out.print("Ingrese el número de identificacion: ");
-                cedula = read.nextLine();
-                System.out.print("Ingrese el nombre: ");
-                nombre = read.nextLine();
-                System.out.print("Ingrese la dirección: ");
-                dir = read.nextLine();
-                System.out.print("Ingrese el número de contacto (celular): ");
-                celular = read.nextLine();
-                System.out.print("Ingrese correo electronico: ");
-                email = read.nextLine();
+                ClientMenu(read, datos);
+                cedula = datos[0]; nombre = datos[1]; dir = datos[2]; celular = datos[3]; email = datos[4];
 
                 if (!cedula.isEmpty() && !nombre.isEmpty()
                         && !dir.isEmpty() && !celular.isEmpty()
@@ -88,6 +82,38 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void FillProducts (Scanner read, String fileName) {
+        String datos[] = new String[100];
+        String codigo, producto, precio;
+
+        try {
+            FileWriter outfile = new FileWriter(fileName+ ".txt");
+            PrintWriter register_prod = new PrintWriter(outfile);
+
+            String hayProducto;
+            System.out.print("\n¿Desea agregar un nuevo producto? (Sí - No)\n[+] ");
+            hayProducto = read.nextLine();
+
+            while (hayProducto.equalsIgnoreCase("si")) {
+                ProductMenu(read, datos);
+                codigo = datos[0]; producto = datos[1]; precio = datos[2];
+
+                System.out.print("\n¿Desea agregar un nuevo producto? (Sí - No)\n[+] ");
+                hayProducto = read.nextLine();
+
+                if (!codigo.isEmpty() && !producto.isEmpty() && !precio.isEmpty()){
+                    register_prod.println(codigo +"\t"+ producto +"\t"+ precio);
+                }
+            }
+
+            register_prod.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void OrderBills(Scanner read, String fileName) {
@@ -239,6 +265,15 @@ public class App {
 
         for (int k = 0; k < titles.length; k++) {
             System.out.println("Ingrese " + titles[k] + ": ");
+            datos[k] = read.nextLine();
+        }
+    }
+
+    public static void ProductMenu (Scanner read, String datos[]) {
+        String titles[] = {"código", "descripción", "precio"};
+
+        for (int k=0 ; k<titles.length ; k++) {
+            System.out.print("Ingrese " +titles[k]+ ": ");
             datos[k] = read.nextLine();
         }
     }
