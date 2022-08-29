@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
@@ -15,8 +16,54 @@ public class App {
         // OrderClients(read, "ClientesTemp");
         // FillBill(read, "FacturaTemp");
         //OrderBills(read, "FacturaTemp");
-        FillProducts(read, "Productos");
+        //FillProducts(read, "Productos");
+        ClientBills("Clientes", "Facturas");
         read.close();
+    }
+
+    public static void ClientBills (String fileName1, String fileName2) {
+        try {
+            File originalFile = new File(fileName1+".txt");
+            BufferedReader register_cliente = new BufferedReader(new FileReader(originalFile));
+            File originalFile2 = new File(fileName2+".txt");
+            BufferedReader register_fact = new BufferedReader(new FileReader(originalFile2));
+
+            String line_cliente = null;
+            String line_facturas = null;
+
+            line_cliente = register_cliente.readLine();
+            line_facturas = register_fact.readLine();
+
+            while (line_cliente != null || line_facturas != null) {
+                String v_client [] = line_cliente.split("\t");
+                
+                if (line_facturas != null) {
+                    String w_fact [] = line_facturas.split("\t");
+
+                    if (v_client[0].equalsIgnoreCase(w_fact[0])) {
+                        System.out.println("Encontre un iwal");
+                        // line_cliente = register_cliente.readLine();
+                        // line_facturas = register_fact.readLine();
+                        break;
+                    }
+                    else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
+                            System.out.println("Esto no es posible !!!");
+                            line_facturas = register_fact.readLine();
+                    }
+                    else if (Integer.parseInt(v_client[0]) < Integer.parseInt(w_fact[0])) {
+                        System.out.println("No encontre a nadie iwal");
+                        line_cliente = register_cliente.readLine();
+                    }
+                }
+            }
+
+            register_cliente.close();
+            register_fact.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        
     }
 
     public static void FillClient(Scanner read, String fileName) {
