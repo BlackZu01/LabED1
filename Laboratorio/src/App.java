@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.FieldPosition;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,23 +18,26 @@ public class App {
         // FillBill(read, "FacturaTemp");
         //OrderBills(read, "FacturaTemp");
         //FillProducts(read, "Productos");
-        ClientBills("Clientes", "Facturas");
+        ClientBills("Clientes", "Facturas", "Productos");
         read.close();
     }
 
-    public static void ClientBills (String fileName1, String fileName2) {
+    public static void ClientBills (String fileName1, String fileName2, String fileName3) {
         try {
-            File originalFile = new File(fileName1+".txt");
+            File originalFile = new File(fileName1+ ".txt");
             BufferedReader register_cliente = new BufferedReader(new FileReader(originalFile));
-            File originalFile2 = new File(fileName2+".txt");
+            File originalFile2 = new File(fileName2+ ".txt");
             BufferedReader register_fact = new BufferedReader(new FileReader(originalFile2));
+            File originalFile3 = new File(fileName3+ ".txt");
+            BufferedReader register_prod = new BufferedReader(new FileReader(originalFile3));
 
             String line_cliente = null;
             String line_facturas = null;
+            String line_prod = null;
 
             line_cliente = register_cliente.readLine();
             line_facturas = register_fact.readLine();
-
+            line_prod = register_prod.readLine();
             while (line_cliente != null || line_facturas != null) {
                 String v_client [] = line_cliente.split("\t");
                 
@@ -41,10 +45,8 @@ public class App {
                     String w_fact [] = line_facturas.split("\t");
 
                     if (v_client[0].equalsIgnoreCase(w_fact[0])) {
-                        System.out.println("Encontre un iwal");
-                        // line_cliente = register_cliente.readLine();
-                        // line_facturas = register_fact.readLine();
-                        break;
+                    String z_prod [] = line_prod.split("\t");
+
                     }
                     else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
                             System.out.println("Esto no es posible !!!");
