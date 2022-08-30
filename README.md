@@ -1,4 +1,4 @@
-#Laboratorio 1 Estructura de Datos (Archivos) punto 2
+# Laboratorio 1 Estructura de Datos (Archivos) punto 2
 Luego de hacer una busqueda a lo largo de los diferentes lenguajes de programacion, se tiene como resultado que se emplean metodos similares por no decir iguales en cuanto a la lectura y escritura de un archivo. Realmente la unica diferencia notoria como era de esperarse es la sintaxis implementada.
 > **🔑 Nota:** Cuando necesitamos que nuestro codigo realice una lectura de datos de un archivo, le proovemos a nuestro codgio una ubicacion en el archivo y posteriormente el computador trae esos datos a su RAM y los analiza desde alla. Del mismo modo, cuando tu código necesita escribir datos en un archivo, el ordenador coloca los nuevos datos en el búfer de escritura en memoria del sistema y los sincroniza con el archivo en el dispositivo de almacenamiento.
 
@@ -179,3 +179,69 @@ Muchos de los lenguajes de programacion que implementamos especifican un "modo" 
 - a para añadir sólo
 
 > **🔑 Nota:** Sea cual sea la forma en que tu lenguaje de programación determine el modo de un archivo, depende de ti asegurarte de que estás añadiendo datos, a menos que pretendas sobrescribir un archivo con nuevos datos. Los lenguajes de programación no tienen avisos incorporados para advertirte de la pérdida de datos, como lo hacen los selectores de archivos.
+
+## _**Comparativo entre lenguajes**_
+En este apartado no ahondaremos mucho en las metricas para evaluar la eficiencia de estos algoritmos de lectura, ya que hay muchas variables a tener en cuenta y que pueden interferir en nuestros resultados. Por ello, para mantener la simpleza solo vamos a tener en cuenta 3 perspectivas: Tiempo, facilidad, lineas de codigo.
+
+Los indicativos seran expuestos con un ✅. Donde 3 es la nota maxima y 1 es la nota minima
+
+**Python 🐍** 
+> *Facilidad:* En cuanto este apartado, Python puede ser el claro ganador ya que su gran reconocimiento y accesibilidad en linea nos permite poder obtener informacion de mucha utilidad referente a la lectura y escritura de archivos. Como adicional, su sintaxis sencilla facilita el entendimiento del script.
+
+**Nota:** ✅ ✅ ✅
+
+> *Lineas de codigo:* La alta versatilidad de Python nos permite leer este tipo de archivos haciendo uso de pocas lineas de codigo, como se obersvo anteriormente solo fue necesario la declaracion de las variables, el uso de funciones y un ciclo for para recorrer las lineas de nuestro archivo.
+
+**Nota:** ✅ ✅ ✅
+
+>*Tiempo de ejecucion:* 
+```
+--- 4.203799724578857 seconds ---
+```
+
+**Nota:** ✅ ✅ ✅ 
+
+**Golang 🐹** 
+> *Facilidad:* El codigo de Golang puede ser retador para una persona que se introduce en el lenguaje, ademas, el manejo de archivos es manejado en su mayoria por librerias de terceros que realizan constantes mejoras a las implementaciones incorporadas por el propio lenguaje. Por otra parte, el constante manejo de errores y su sintaxis hacen que la lectura de nuestro script no sea lo suficientemente autocontenida como se espera. 
+
+**Nota:** ✅ 
+
+> *Lineas de codigo:* Nuevamente, Golang deja mucho que desear en este apartado a comparacion de sus otros "contendientes". Su sintaxis hace que la lectura de los archivos se haga un poco mas complicada ya que segun mas grande sea el archivo, mas validaciones y manejo de errores se tendran que hacer.
+
+**Nota:** ✅ 
+
+>*Tiempo de ejecucion:* 
+```
+--- execution time 1m59.8970604s ---
+```
+
+
+**Nota:** ✅ 
+
+
+**Ruby 🏮** 
+> *Facilidad:* Similarmente a Python, Ruby maneja una sintaxis comprensible y que permite ser autocontenida para aquella persona que manipula nuestro codigo, adicionalmente las librerias incorporadas por el mismo lenguaje en la lectura de archivos son lo suficientememte buenas para permitirnos un manejo rapido y eficaz de nuestras tareas
+
+**Nota:** ✅ ✅ ✅
+
+> *Lineas de codigo:* La extension del script es demasiado breve, de hecho son 3 lineas pero lo que hace extender un poco mas nuestro codigo es la funcionalidad adicional de poder cronometrar los tiempos empleados por nuestra funcion en la lectura del archivo. Por eso como nota se tiene un solido 3
+
+**Nota:** ✅ ✅ ✅
+
+>*Tiempo de ejecucion:* 
+```
+--- 41.784799300003215 seconds ---
+```
+
+
+**Nota:** ✅ ✅ 
+
+Finalmente, luego de este analisis concluimos segun nuestro criterio que los mejores lenguajes en cuanto a la lectura de archivos en esta comparativa son:
+- **Python 🐍**
+- **Ruby 🏮**
+- **Golang 🐹**
+
+
+
+
+
