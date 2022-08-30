@@ -1,4 +1,4 @@
-# Laboratorio 1 Estructura de Datos (Archivos)
+#Laboratorio 1 Estructura de Datos (Archivos) punto 2
 Luego de hacer una busqueda a lo largo de los diferentes lenguajes de programacion, se tiene como resultado que se emplean metodos similares por no decir iguales en cuanto a la lectura y escritura de un archivo. Realmente la unica diferencia notoria como era de esperarse es la sintaxis implementada.
 > **🔑 Nota:** Cuando necesitamos que nuestro codigo realice una lectura de datos de un archivo, le proovemos a nuestro codgio una ubicacion en el archivo y posteriormente el computador trae esos datos a su RAM y los analiza desde alla. Del mismo modo, cuando tu código necesita escribir datos en un archivo, el ordenador coloca los nuevos datos en el búfer de escritura en memoria del sistema y los sincroniza con el archivo en el dispositivo de almacenamiento.
 
@@ -64,11 +64,32 @@ func main() {
 	}
 }
 ```
+**Usando Ruby 🏮**
+
+Maneja metodologias similares a las implementadas por Python, solo tenemos que instanciar una variable a los resultados de la lectura por filas de nuestro archivo implementando el uso de una función abierta y luego analizar el contenido de nuestra variable. Destacando de esta manera en eficacia y sencillez.
+```
+require 'benchmark'
+
+def print_measures
+ time = Benchmark.measure {
+    file = File.open('C:\Users\user\Documents\Lab1ED\LabED1\FilesPunto2\finaldata.csv')
+
+    puts file.readlines
+    
+    file.close
+ }
+ puts time.real #or save it to logs
+end
+print_measures()
+```
+
+
 ## **_Escribir datos en un archivo_**
 En términos de código, la escritura es la inversa de la lectura. Como tal, el proceso algoritmico de escritura de datos en un archivo es básicamente el mismo que el de lectura de datos del mismo, solo que la diferencia es que utilizan funciones diferentes.
 
 **Usando Python 🐍**
-empleamos una metodologia similar con respecto a su lectura de archivos, en este proceos se usan funciones llamadas _open_ para cargar un archivo, _write_ para poner datos en él, y _close_ para cerrar el archivo.
+
+Empleamos una metodologia similar con respecto a su lectura de archivos, en este proceos se usan funciones llamadas _open_ para cargar un archivo, _write_ para poner datos en él, y _close_ para cerrar el archivo.
 
 ```
 myFile = open('example.txt', 'w')
@@ -77,6 +98,7 @@ myFile.close()
 ```
 
 **Usando Go 🐹**
+
 A pesar de que el proceso no es totalmente analogo al de lectura, las librerias propias de Go nos permiten utilizar una amplia gama de recursos para poder tener varias funcionalidades al momento de escribir en nuestro archivo, sin embargo aca solo haremos mencion del proceso mas comun. 
 
 * ✅ Para escribir en archivos en Go, utilizamos los paquetes os, ioutil y fmt y poseen una estructura similar a lo que ves a continuacion. Como agregado, las funciones que utilizamos suelen devolver el número de bytes escritos y un error en caso de que exista.
@@ -131,6 +153,23 @@ done
 $ cat data.txt
 Un string a tu gusto
 ```
+**Usando Ruby 🏮**
+
+Si quieres escribir en un archivo usando Ruby
+
+- Abre el archivo en modo de escritura (indicativo "w")
+- Utiliza el método de escritura para añadir datos al archivo
+- Si no has utilizado la versión en bloque, recuerda cerrar
+
+*Ejemplo*
+
+```
+File.open("archivo.txt", "w") { |f| f.write "#{Time.now} - Oh! Un nuevo registro\n" }
+```
+> **✔ Importante:** Esto reescribirá el contenido del archivo anterior. 
+Si desea añadir nuevo contenido al archivo, utiliza el indicativo "a" (append), en lugar del indicativo "w" (write).
+
+
 ## _**Modos de archivo**_
 Muchos de los lenguajes de programacion que implementamos especifican un "modo" al abrir archivos. Los modos varían, pero esta es la notación común:
 
