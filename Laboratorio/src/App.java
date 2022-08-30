@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import javax.swing.text.html.FormSubmitEvent;
+
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner read = new Scanner(System.in);
@@ -34,22 +36,23 @@ public class App {
 
             String line_cliente = null;
             String line_facturas = null;
-            String line_prod = null;
-            
+
+            String W_prod [][] = new String[100][100];
+            String deudas [][] = new String[100][100];
+            String fact [][] = new String[100][100];
+            int t=0, x=0, y=0;
+
             line_cliente = register_cliente.readLine();
             line_facturas = register_fact.readLine();
-            line_prod = register_prod.readLine();
+
             while (line_cliente != null || line_facturas != null) {
                 String v_client[] = line_cliente.split("\t");
-                String W_prod [][] = new String[100][100];
-                int t=0;
                 String line=null;
 
                 if (line_facturas != null) {
                     String w_fact[] = line_facturas.split("\t");
 
-                    if (v_client[0].equalsIgnoreCase(w_fact[0])) {
-                        String z_prod[] = line_prod.split("\t");
+                    if (v_client[0].equalsIgnoreCase(w_fact[0])) {  
 
                         while ((line = register_prod.readLine()) != null) {
                             String VecTemp[] = line.split("\t");
@@ -59,13 +62,15 @@ public class App {
                             }
                             t++;
                         }
-                    
-                        for (int k=0 ; k < t ; k++) {
-                            for (int j=0 ; j < 3 ; j++) {
-                                System.out.print(W_prod[k][j]+ " ");
-                            }
-                            System.out.println(" ");
-                        }
+
+                        // Asignacion de la matriz de facturas
+                        fact[x][0] = w_fact[0];
+                        fact[x][1] = w_fact[1];
+                        fact[x][2] = w_fact[2];
+                        fact[x][3] = w_fact[3];
+                        x++;
+
+                        
 
                         line_facturas = register_fact.readLine();
                         // System.out.println(w_fact[0]+ " - " +w_fact[1]+ " - " +w_fact[2]+ " - " +w_fact[3]+ "");
@@ -80,8 +85,62 @@ public class App {
                 } else {
                     break;
                 }
-            }
-            // register_prod.close();
+                for (int k=0 ; k < x ; k++) {
+                    for (int j=0 ; j < t; j++) {
+                        if (fact[k][2].equals(W_prod[j][0])) {
+                            deudas[k][0] = fact[k][0];
+                            deudas[k][1] = fact[k][2];
+                            deudas[k][2] = String.valueOf(Integer.parseInt(fact[k][3]) * Integer.parseInt(W_prod[j][2]));
+    
+                        }
+                    }
+                }
+            }    
+            BufferedReader register_client = new BufferedReader(new FileReader(originalFile));
+            BufferedReader register_fac = new BufferedReader(new FileReader(originalFile2));
+            line_cliente = null;
+            line_facturas = null;
+            line_cliente = register_client.readLine();
+            line_facturas = register_fac.readLine();
+            int k=0;
+            
+
+            while (line_cliente != null || line_facturas != null) {
+                String v_client[] = line_cliente.split("\t");
+                String line=null;
+
+                if (line_facturas != null) {
+                    String w_fact[] = line_facturas.split("\t");
+
+                    if (v_client[0].equalsIgnoreCase(w_fact[0])) {  
+                        int suma=0;
+                        while (deudas[k][0].equals(fact[k][0])) {
+                                suma += Integer.parseInt(deudas[k][2]);
+                                System.out.println("La deuda de " +deudas[k][0]+ " es " +suma);
+                                k++;
+                            
+                        }
+                        
+                        line_facturas = register_fac.readLine();
+                        // System.out.println(w_fact[0]+ " - " +w_fact[1]+ " - " +w_fact[2]+ " - " +w_fact[3]+ "");
+
+                    } else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
+                        System.out.println("Esto no es posible !!!");
+                        line_facturas = register_fac.readLine();
+                    } else if (Integer.parseInt(v_client[0]) < Integer.parseInt(w_fact[0])) {
+                        // System.out.println("No encontre a nadie iwal " +v_client[0]+ " - " +w_fact[0]);
+                        line_cliente = register_client.readLine();
+                    } 
+                } else {
+                    break;
+                }
+                
+            } 
+               
+            register_client.close();     
+            register_fac.close();
+
+            register_prod.close();
             register_cliente.close();
             register_fact.close();
         } catch (IOException e) {
