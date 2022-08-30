@@ -17,8 +17,9 @@ public class App {
         // OrderClients(read, "ClientesTemp");
         // FillBill(read, "FacturaTemp");
         // OrderBills(read, "FacturaTemp");
-        // FillProducts(read, "Productos");
-        ClientBills("Clientes", "Facturas", "Productos");
+        //OrderProd(read, "Productos");
+        //FillProducts(read, "Productos");
+        ClientBills("Clientes", "Facturas", "ProductosOrd");
         read.close();
     }
 
@@ -40,6 +41,9 @@ public class App {
             line_prod = register_prod.readLine();
             while (line_cliente != null || line_facturas != null) {
                 String v_client[] = line_cliente.split("\t");
+                String W_prod [][] = new String[100][100];
+                int t=0;
+                String line=null;
 
                 if (line_facturas != null) {
                     String w_fact[] = line_facturas.split("\t");
@@ -47,18 +51,37 @@ public class App {
                     if (v_client[0].equalsIgnoreCase(w_fact[0])) {
                         String z_prod[] = line_prod.split("\t");
 
-                        // Aqui continuo en la mañana
+                        while ((line = register_prod.readLine()) != null) {
+                            String VecTemp[] = line.split("\t");
+        
+                            for (int k = 0; k < VecTemp.length; k++) {
+                                W_prod[t][k] = VecTemp[k];
+                            }
+                            t++;
+                        }
+                    
+                        for (int k=0 ; k < t ; k++) {
+                            for (int j=0 ; j < 3 ; j++) {
+                                System.out.print(W_prod[k][j]+ " ");
+                            }
+                            System.out.println(" ");
+                        }
+
+                        line_facturas = register_fact.readLine();
+                        // System.out.println(w_fact[0]+ " - " +w_fact[1]+ " - " +w_fact[2]+ " - " +w_fact[3]+ "");
 
                     } else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
                         System.out.println("Esto no es posible !!!");
                         line_facturas = register_fact.readLine();
                     } else if (Integer.parseInt(v_client[0]) < Integer.parseInt(w_fact[0])) {
-                        System.out.println("No encontre a nadie iwal");
+                        // System.out.println("No encontre a nadie iwal " +v_client[0]+ " - " +w_fact[0]);
                         line_cliente = register_cliente.readLine();
-                    }
+                    } 
+                } else {
+                    break;
                 }
             }
-
+            // register_prod.close();
             register_cliente.close();
             register_fact.close();
         } catch (IOException e) {
@@ -168,6 +191,68 @@ public class App {
             e.printStackTrace();
         }
 
+    }
+
+    public static void OrderProd (Scanner read, String fileName) {
+        boolean hayProd = false;
+        String W[][] = new String[100][100];
+        String W_order[][] = new String[100][100];
+        int t=0, x=0;
+
+        while (hayProd == false) {
+            try {
+                File Productos = new File("ProductosOrd.txt");
+                PrintWriter register_prod = new PrintWriter(new FileWriter(Productos));
+
+                BufferedReader br = new BufferedReader(new FileReader(fileName + ".txt"));
+                String line = null;
+                String orderVec[] = new String[100];
+
+                while ((line = br.readLine()) != null) {
+                    String VecTemp[] = line.split("\t");
+
+                    for (int k = 0; k < VecTemp.length; k++) {
+                        W[t][k] = VecTemp[k];
+                    }
+
+                    orderVec[t] = W[t][0];
+                    t++;
+                }
+
+                OrdenarVector(orderVec, t);
+                while (x < t) {
+                    for (int k = 0; k < t; k++) {
+                        if (orderVec[x] == null) {
+                            break;
+                        }
+                        if (Integer.parseInt(orderVec[x]) == Integer.parseInt(W[k][0])) {
+                            for (int y = 0; y < t; y++) {
+                                W_order[x][y] = W[k][y];
+                            }
+                            x++;
+                        }
+                    }
+                }
+
+                for (int k = 0; k < t; k++) {
+                    if (!W_order[k][0].isEmpty() && !W_order[k][1].isEmpty()
+                            && !W_order[k][2].isEmpty()) {
+                        register_prod.println(
+                                W_order[k][0] + "\t" + W_order[k][1] + "\t" + W_order[k][2]);
+                    }
+                }
+
+                register_prod.close();
+                br.close();
+                hayProd = true;
+
+            } catch (IOException e) {
+                System.out.println("No se encontro archivo");
+                hayProd = false;
+                fileName = read.nextLine();
+            }
+
+        }
     }
 
     public static void OrderBills(Scanner read, String fileName) {
