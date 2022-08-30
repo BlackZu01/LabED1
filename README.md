@@ -1,4 +1,4 @@
-#Laboratorio 1 Estructura de Datos (Archivos) punto 2
+# Laboratorio 1 Estructura de Datos (Archivos)
 Luego de hacer una busqueda a lo largo de los diferentes lenguajes de programacion, se tiene como resultado que se emplean metodos similares por no decir iguales en cuanto a la lectura y escritura de un archivo. Realmente la unica diferencia notoria como era de esperarse es la sintaxis implementada.
 > **🔑 Nota:** Cuando necesitamos que nuestro codigo realice una lectura de datos de un archivo, le proovemos a nuestro codgio una ubicacion en el archivo y posteriormente el computador trae esos datos a su RAM y los analiza desde alla. Del mismo modo, cuando tu código necesita escribir datos en un archivo, el ordenador coloca los nuevos datos en el búfer de escritura en memoria del sistema y los sincroniza con el archivo en el dispositivo de almacenamiento.
 
@@ -131,7 +131,7 @@ done
 $ cat data.txt
 Un string a tu gusto
 ```
-##_**Modos de archivo**_
+## _**Modos de archivo**_
 Muchos de los lenguajes de programacion que implementamos especifican un "modo" al abrir archivos. Los modos varían, pero esta es la notación común:
 
 - w para escribir

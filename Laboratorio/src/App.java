@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.FieldPosition;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,42 +16,43 @@ public class App {
         // FillClient(read, "Clientes");
         // OrderClients(read, "ClientesTemp");
         // FillBill(read, "FacturaTemp");
-        //OrderBills(read, "FacturaTemp");
-        //FillProducts(read, "Productos");
-        ClientBills("Clientes", "Facturas");
+        // OrderBills(read, "FacturaTemp");
+        // FillProducts(read, "Productos");
+        ClientBills("Clientes", "Facturas", "Productos");
         read.close();
     }
 
-    public static void ClientBills (String fileName1, String fileName2) {
+    public static void ClientBills(String fileName1, String fileName2, String fileName3) {
         try {
-            File originalFile = new File(fileName1+".txt");
+            File originalFile = new File(fileName1 + ".txt");
             BufferedReader register_cliente = new BufferedReader(new FileReader(originalFile));
-            File originalFile2 = new File(fileName2+".txt");
+            File originalFile2 = new File(fileName2 + ".txt");
             BufferedReader register_fact = new BufferedReader(new FileReader(originalFile2));
+            File originalFile3 = new File(fileName3 + ".txt");
+            BufferedReader register_prod = new BufferedReader(new FileReader(originalFile3));
 
             String line_cliente = null;
             String line_facturas = null;
-
+            String line_prod = null;
+            
             line_cliente = register_cliente.readLine();
             line_facturas = register_fact.readLine();
-
+            line_prod = register_prod.readLine();
             while (line_cliente != null || line_facturas != null) {
-                String v_client [] = line_cliente.split("\t");
-                
+                String v_client[] = line_cliente.split("\t");
+
                 if (line_facturas != null) {
-                    String w_fact [] = line_facturas.split("\t");
+                    String w_fact[] = line_facturas.split("\t");
 
                     if (v_client[0].equalsIgnoreCase(w_fact[0])) {
-                        System.out.println("Encontre un iwal");
-                        // line_cliente = register_cliente.readLine();
-                        // line_facturas = register_fact.readLine();
-                        break;
-                    }
-                    else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
-                            System.out.println("Esto no es posible !!!");
-                            line_facturas = register_fact.readLine();
-                    }
-                    else if (Integer.parseInt(v_client[0]) < Integer.parseInt(w_fact[0])) {
+                        String z_prod[] = line_prod.split("\t");
+
+                        // Aqui continuo en la mañana
+
+                    } else if (Integer.parseInt(v_client[0]) > Integer.parseInt(w_fact[0])) {
+                        System.out.println("Esto no es posible !!!");
+                        line_facturas = register_fact.readLine();
+                    } else if (Integer.parseInt(v_client[0]) < Integer.parseInt(w_fact[0])) {
                         System.out.println("No encontre a nadie iwal");
                         line_cliente = register_cliente.readLine();
                     }
@@ -63,7 +65,6 @@ public class App {
             e.printStackTrace();
         }
 
-        
     }
 
     public static void FillClient(Scanner read, String fileName) {
@@ -80,7 +81,11 @@ public class App {
 
             while (hayRegistro.equalsIgnoreCase("si")) {
                 ClientMenu(read, datos);
-                cedula = datos[0]; nombre = datos[1]; dir = datos[2]; celular = datos[3]; email = datos[4];
+                cedula = datos[0];
+                nombre = datos[1];
+                dir = datos[2];
+                celular = datos[3];
+                email = datos[4];
 
                 if (!cedula.isEmpty() && !nombre.isEmpty()
                         && !dir.isEmpty() && !celular.isEmpty()
@@ -131,12 +136,12 @@ public class App {
         }
     }
 
-    public static void FillProducts (Scanner read, String fileName) {
+    public static void FillProducts(Scanner read, String fileName) {
         String datos[] = new String[100];
         String codigo, producto, precio;
 
         try {
-            FileWriter outfile = new FileWriter(fileName+ ".txt");
+            FileWriter outfile = new FileWriter(fileName + ".txt");
             PrintWriter register_prod = new PrintWriter(outfile);
 
             String hayProducto;
@@ -145,13 +150,15 @@ public class App {
 
             while (hayProducto.equalsIgnoreCase("si")) {
                 ProductMenu(read, datos);
-                codigo = datos[0]; producto = datos[1]; precio = datos[2];
+                codigo = datos[0];
+                producto = datos[1];
+                precio = datos[2];
 
                 System.out.print("\n¿Desea agregar un nuevo producto? (Sí - No)\n[+] ");
                 hayProducto = read.nextLine();
 
-                if (!codigo.isEmpty() && !producto.isEmpty() && !precio.isEmpty()){
-                    register_prod.println(codigo +"\t"+ producto +"\t"+ precio);
+                if (!codigo.isEmpty() && !producto.isEmpty() && !precio.isEmpty()) {
+                    register_prod.println(codigo + "\t" + producto + "\t" + precio);
                 }
             }
 
@@ -316,11 +323,11 @@ public class App {
         }
     }
 
-    public static void ProductMenu (Scanner read, String datos[]) {
-        String titles[] = {"código", "descripción", "precio"};
+    public static void ProductMenu(Scanner read, String datos[]) {
+        String titles[] = { "código", "descripción", "precio" };
 
-        for (int k=0 ; k<titles.length ; k++) {
-            System.out.print("Ingrese " +titles[k]+ ": ");
+        for (int k = 0; k < titles.length; k++) {
+            System.out.print("Ingrese " + titles[k] + ": ");
             datos[k] = read.nextLine();
         }
     }
