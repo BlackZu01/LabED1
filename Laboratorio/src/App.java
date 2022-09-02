@@ -32,13 +32,13 @@ public class App {
         // FillProducts(read, "Productos");
         // OrderProd(read, "Productos");
 
-        String infoTot[][] = new String[100][100];
-        int filasTot = 0;
-        ClientBills("Clientes", "Facturas", "ProductosOrd", infoTot);
-        filasTot = NumFilas(infoTot);
-        ClientData(infoTot ,"Clientes", filasTot);
+        // String infoTot[][] = new String[100][100];
+        // int filasTot = 0;
+        // ClientBills("Clientes", "Facturas", "ProductosOrd", infoTot);
+        // filasTot = NumFilas(infoTot);
+        // ClientData(infoTot ,"Clientes", filasTot);
 
-        MajorProduct("Facturas", "ProductosOrd");
+        // MajorProduct("Facturas", "ProductosOrd");
 
         read.close();
     }
