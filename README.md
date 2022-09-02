@@ -242,6 +242,8 @@ Finalmente, luego de este analisis concluimos segun nuestro criterio que los mej
 - **Golang 🐹**
 
 
+## _**Comparativo entre algoritmos de archivos y los usados en clase**_
 
-
-
+En nuestra opinion, creemos que no hay diferencias significativas en las implementaciones actuales de lectura de archivos en comparacion con las vistas en clase. Ya que el proceso de lectura, buffer y cierre de archivo es implicito en cada una de las implementaciones de los diferentes lenguajes. Sin embargo, con toda la revolucion del mundo de los datos, al hacerse mas grande el volumen de los mismos. Los propios lenguajes han tenido que optar por mejoras internas en la optimizacion de sus metodos y a su vez apoyar los recursos ofrecidos por terceros tales como lo son las librerias de modo que el proceso de lectura, escritura y compresion se pueda realizar de manera rapida e intuitiva por el usuario. 
+Con esto, concluimos todo lo solicitado por el punto 2 (Parte teorica)
+Esperamos sea de su agrado y hasta la proxima  
